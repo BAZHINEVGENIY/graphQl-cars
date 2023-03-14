@@ -1,0 +1,200 @@
+type Car {
+    id: ID
+    naming: CarNaming
+    connectors: [CarPlug]
+    adapters: [CarPlug]
+    battery: CarBattery
+    body: CarBody
+    availability: CarAvailability
+    performance: CarPerformance
+    range: CarRange
+    connect: Connect
+    acceleration: Float
+}
+
+type CarAvailability {
+    status: Int
+}
+
+type CarBattery {
+    usable_kwh: Float
+    full_kwh: Float
+}
+
+type CarBody {
+    width: Int
+    height: Int
+    weight: Int
+    seats: Int
+}
+
+type CarList {
+    id: ID
+    naming: CarListNaming
+    connectors: [CarPlug]
+    adapters: [CarPlug]
+    battery: CarListBattery
+    body: CarListBody
+    availability: CarListAvailability
+    range: CarListRange
+    connect: Connect
+}
+
+type CarListAvailability {
+    status: Int
+}
+
+type CarListBattery {
+    usable_kwh: Float
+    full_kwh: Float
+}
+
+type CarListBody {
+    seats: Int
+}
+
+type CarListNaming {
+    make: String
+    model: String
+    version: String
+    edition: String
+    chargetrip_version: String
+}
+
+input CarListQuery {
+    make: String
+    model: String
+    version: String
+    chargetrip_version: String
+    mode: CarMode
+}
+
+type CarListRange {
+    chargetrip_range: ChargetripRange
+}
+type ChargetripRange {
+    worst(unit: DistanceUnit): Float
+    best(unit: DistanceUnit): Float
+}
+
+enum DistanceUnit {
+    meter
+    foot
+    kilometer
+    mile
+}
+
+enum CarMode {
+    index_only
+    production
+    concept
+}
+
+type CarNaming {
+    make: String
+    model: String
+    version: String
+    edition: String
+    chargetrip_version: String
+}
+
+type CarPerformance {
+    acceleration: Float
+    top_speed: Int
+}
+
+type CarPlug {
+    standard: ConnectorType
+    power: Float
+    max_electric_power: Float
+    time: Int
+    speed: Int
+}
+
+type Connect {
+    providers: [ConnectProvider!]!
+}
+
+input CarListFilter {
+    availability: [Int]
+    connect: ConnectFilter
+}
+
+input ConnectFilter {
+    providers: [ConnectProvider]
+}
+
+enum ConnectProvider {
+    Enode
+}
+
+enum ConnectorType {
+    CHADEMO
+    DOMESTIC_A
+    DOMESTIC_B
+    DOMESTIC_C
+    DOMESTIC_D
+    DOMESTIC_E
+    DOMESTIC_F
+    DOMESTIC_G
+    DOMESTIC_H
+    DOMESTIC_I
+    DOMESTIC_J
+    DOMESTIC_K
+    DOMESTIC_L
+    DOMESTIC_M
+    DOMESTIC_N
+    DOMESTIC_O
+    IEC_60309_2_single_16
+    IEC_60309_2_three_16
+    IEC_60309_2_three_32
+    IEC_60309_2_three_64
+    IEC_62196_T1
+    IEC_62196_T1_COMBO
+    IEC_62196_T2
+    IEC_62196_T2_COMBO
+    IEC_62196_T3A
+    IEC_62196_T3C
+    PANTOGRAPH_BOTTOM_UP
+    PANTOGRAPH_TOP_DOWN
+    TESLA_R
+    TESLA_S
+    GB_T
+    CHAOJI
+    NEMA_5_20
+    NEMA_6_30
+    NEMA_6_50
+    NEMA_10_30
+    NEMA_10_50
+    NEMA_14_30
+    NEMA_14_50
+}
+
+type CarRange {
+    real: Int
+    real_is_estimated: Boolean
+    worst: CarRangeValue
+    best: CarRangeValue
+    chargetrip_range: ChargetripRange
+    wltp: Float @deprecated(reason: "You will receive null values")
+}
+
+type CarRangeValue {
+    highway: Int
+    city: Int
+    combined: Int
+}
+
+type Query {
+    car(
+        id: ID
+        externalId: Int
+    ): Car
+    carList(
+        query: CarListQuery
+        search: String
+        filter: CarListFilter
+        size: Int
+        page: Int
+    ): [CarList]
+}

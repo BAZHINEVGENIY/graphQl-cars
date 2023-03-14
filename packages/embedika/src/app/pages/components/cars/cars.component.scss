@@ -1,0 +1,49 @@
+//mat-spinner {
+//  background-color: greenyellow;
+//}
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+
+  &__main {
+    background-color: #E5E5E5;
+    display: flex;
+    flex-basis: 75%;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5%;
+
+    &-paginator {
+      display: flex;
+      align-items: center;
+
+      *:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  &__filter {
+    width: 20%;
+    height: 100%;
+
+    background-color: #FFFFFF;
+
+    padding: 2%;
+    display: flex;
+    flex-direction: column;
+    flex-basis: 25%;
+    right: 0;
+    top: 0;
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    &-option {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

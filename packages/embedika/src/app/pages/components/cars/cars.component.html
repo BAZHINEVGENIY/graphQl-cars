@@ -1,0 +1,39 @@
+<div class="container">
+    <div *ngIf="(data$ | async) as data" class="container__main">
+        <h1>Cars Overview</h1>
+
+        <mat-spinner *ngIf="data.loading"></mat-spinner>
+        <ng-container *ngIf="data.data?.carList as carList">
+            <app-fruits-card
+                    class="container__main-card"
+                    *ngFor="let car of carList"
+                    [car]="car"
+            ></app-fruits-card>
+        </ng-container>
+        <div class="container__main-paginator">
+            <ng-container
+                    *ngIf="!filterComponent.searchSelectValue.length && !filterComponent.searchRadioValue"
+            >
+                <button
+                        mat-icon-button
+                        (click)="decrementPage()"
+                        [disabled]="!numPage || data.loading"
+                >
+                    <mat-icon>keyboard_arrow_left</mat-icon>
+                </button>
+                <span>{{numPage + 1}}</span>
+                <button
+                        mat-icon-button
+                        (click)="incrementPage()"
+                        [disabled]="data.loading"
+                >
+                    <mat-icon>keyboard_arrow_right</mat-icon>
+                </button>
+            </ng-container>
+        </div>
+    </div>
+    <div class="container__filter">
+        <h2>Filters</h2>
+        <app-filter [data$]="data$" [numPage]="numPage"></app-filter>
+    </div>
+</div>
