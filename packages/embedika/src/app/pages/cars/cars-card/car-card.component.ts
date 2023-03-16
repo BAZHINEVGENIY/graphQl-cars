@@ -7,12 +7,12 @@ import {
 import { NgIf } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { CarInterface } from '../../../types/cars.interface';
+import { CarInterface } from '../../types/cars.interface';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-fruits-card',
+  selector: 'app-car-card',
   standalone: true,
   imports: [NgIf, MatDividerModule, MatIconModule, MatButtonModule],
   templateUrl: './car-card.component.html',

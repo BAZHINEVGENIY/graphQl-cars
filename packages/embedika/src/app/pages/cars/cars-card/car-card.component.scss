@@ -1,0 +1,29 @@
+@import "./packages/embedika/src/app/app.component";
+
+.card {
+  padding: 10px 20px 10px 0;
+
+  &__make {
+    display: flex;
+    align-items: center;
+  }
+
+  &__info {
+    display: flex;
+    flex-wrap: wrap;
+
+    span {
+      @include span
+    }
+
+    &-model, &-charge {
+      display: inline-flex;
+      flex-wrap: wrap;
+      flex-basis: 50%;
+    }
+  }
+}
+
+label {
+  margin-right: 30%;
+}

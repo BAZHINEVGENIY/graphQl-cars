@@ -1,15 +1,20 @@
-<ng-container #sas>
+<div class="filter">
+    <h4>Filters</h4>
     <mat-form-field>
         <mat-label>Search manufacturer</mat-label>
-        <input matInput type="text" #input>
+        <input
+                [(ngModel)]="searchCarByManufacturer"
+                matInput
+                type="text"
+                #input>
     </mat-form-field>
 
     <mat-form-field>
         <mat-label>Charge version</mat-label>
         <mat-select
                 multiple
-                (selectionChange)="searchCharge()"
-                [(ngModel)]="searchSelectValue"
+                (selectionChange)="filtering(); isUniqValue()"
+                [(value)]="searchSelectCharge"
         >
             <mat-option
                     *ngFor="let charge of uniqCharge"
@@ -19,9 +24,10 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
-
-    <mat-radio-group class="container__filter-option"
+    <h5>Type</h5>
+    <mat-radio-group class="filter__option"
                      color="primary"
+                     (change)="filtering(); isUniqValue()"
                      [(ngModel)]="searchRadioValue"
     >
         <mat-radio-button
@@ -31,4 +37,4 @@
             {{model}}
         </mat-radio-button>
     </mat-radio-group>
-</ng-container>
+</div>

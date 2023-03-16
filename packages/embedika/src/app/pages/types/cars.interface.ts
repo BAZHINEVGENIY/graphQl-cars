@@ -27,13 +27,15 @@ export interface ExtendedCarInterface {
       combined: string;
     };
   };
-  connectors: {
-    standard: string;
-    power: string;
-    time: string;
-    speed: string;
-    max_electric_power: string;
-  };
+  connectors: [
+    {
+      standard: string;
+      power: string;
+      time: string;
+      speed: string;
+      max_electric_power: string;
+    }
+  ];
 }
 
 export interface CarsListInterface {
@@ -41,5 +43,5 @@ export interface CarsListInterface {
 }
 
 export interface CarListInterface {
-  car: ExtendedCarInterface[];
+  car: ExtendedCarInterface;
 }

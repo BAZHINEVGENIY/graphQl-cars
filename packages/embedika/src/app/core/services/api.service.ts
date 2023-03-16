@@ -3,24 +3,18 @@ import { GraphQlService } from './graph-ql.service';
 import { Observable, share } from 'rxjs';
 import { gqlRequest, MyAnswer } from '../../pages/types/api.interface';
 
-/*todo
-   этот сервис как оболочка над реальной реализацией API,
-   здесь можно поредачить данные и задать дефолтные переменные
-*/
+//этот сервис как прослойка над реальной реализацией API,
+//здесь можно поредачить данные и задать дефолтные значения
 @Injectable()
 export class ApiService {
   private readonly currentApi = inject(GraphQlService);
 
-  /*todo
-       дженерики?
-       упростить передачу аргументов и дефолтные значения?
-    */
-  request(
-    req: gqlRequest,
+  request<T>(
+    req: gqlRequest<T>,
     { id = '', query = {}, page = 0, size = 5, search = '' } = {}
-  ): Observable<MyAnswer> {
+  ): Observable<MyAnswer<T>> {
     return this.currentApi
-      .request(req, { id, query, page, size, search })
+      .request<T>(req, { id, query, page, size, search })
       .pipe(share());
   }
 

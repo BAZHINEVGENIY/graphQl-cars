@@ -1,0 +1,49 @@
+@import "./packages/embedika/src/app/app.component";
+
+.car {
+  padding: 52px 4%;
+
+  .container > * {
+    margin-bottom: 30px;
+  }
+
+  &__info {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+
+    &-model, &-charge, &-acceleration, &-range {
+      display: flex;
+      flex-basis: 50%;
+      padding-right: 10px;
+      flex-wrap: wrap;
+    }
+
+    &-rangeinfo {
+      label {
+        width: auto;
+        margin: 0;
+      }
+    }
+  }
+
+  &__connectors {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+
+    label {
+      width: auto;
+      margin: 0;
+    }
+  }
+}
+
+span {
+  @include span
+}
+
+label {
+  width: 150px;
+  margin-right: 20%;
+}

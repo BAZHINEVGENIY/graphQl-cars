@@ -1,6 +1,3 @@
-//mat-spinner {
-//  background-color: greenyellow;
-//}
 .container {
   height: 100%;
   width: 100%;
@@ -9,41 +6,27 @@
   &__main {
     background-color: #E5E5E5;
     display: flex;
-    flex-basis: 75%;
+    flex: 1;
     flex-direction: column;
     justify-content: space-between;
-    padding: 5%;
+    padding: 52px 4%;
+    overflow: auto;
 
     &-paginator {
       display: flex;
       align-items: center;
 
       *:not(:last-child) {
-        margin-right: 10px;
+        margin-right: 5px;
       }
     }
   }
 
   &__filter {
-    width: 20%;
     height: 100%;
-
     background-color: #FFFFFF;
-
-    padding: 2%;
-    display: flex;
-    flex-direction: column;
-    flex-basis: 25%;
+    padding: 52px 2%;
     right: 0;
     top: 0;
-
-    h2 {
-      margin-bottom: 20px;
-    }
-
-    &-option {
-      display: flex;
-      flex-direction: column;
-    }
   }
 }

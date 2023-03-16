@@ -9,16 +9,12 @@ export const appRoutes: Route[] = [
   {
     path: 'list',
     loadComponent: () =>
-      import('./pages/components/cars/cars.component').then(
-        (cars) => cars.CarsComponent
-      ),
+      import('./pages/cars/cars.component').then((cars) => cars.CarsComponent),
   },
   {
     path: 'list/:id',
     loadComponent: () =>
-      import('./pages/components/car/car.component').then(
-        (car) => car.CarComponent
-      ),
+      import('./pages/car/car.component').then((car) => car.CarComponent),
   },
   {
     path: '**',

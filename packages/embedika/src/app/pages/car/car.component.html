@@ -1,0 +1,48 @@
+<div class="car" *ngIf="(data$ | async) as data">
+    <mat-spinner *ngIf="data.loading"></mat-spinner>
+    <div class="container" *ngIf="data.data?.car as car">
+        <nav class="car__navbar">
+            <button mat-button (click)="goBack()" style="color:#2962FF">
+                <mat-icon>arrow_back</mat-icon>
+                Go back
+            </button>
+        </nav>
+
+        <h3>{{ car.naming.make }}</h3>
+
+        <div class="car__info">
+            <div class="car__info-model">
+                <label>Model</label>
+                <div><span>{{ car.naming.model }}</span></div>
+            </div>
+            <div class="car__info-charge">
+                <label>Charge version</label>
+                <div><span>{{ car.naming.chargetrip_version }}</span></div>
+            </div>
+        </div>
+
+        <div class="car__info">
+            <div class="car__info-acceleration">
+                <label>Acceleration</label>
+                <div><span>{{ car.acceleration }}</span></div>
+            </div>
+            <div class="car__info-range">
+                <label>Best range</label>
+                <div class="car__info-rangeinfo">
+                    <label>City: <span> {{ car.range.best.city }}, </span></label>
+                    <label>Highway: <span> {{ car.range.best.highway }}, </span></label>
+                    <label>Combined: <span> {{ car.range.best.combined }}</span></label>
+                </div>
+            </div>
+        </div>
+
+        <label>Connectors type:</label>
+        <div class="car__connectors" *ngFor="let connector of car.connectors">
+            <label>Standart: <span> {{ connector.standard }}</span></label>
+            <label>Power: <span> {{ connector.power }}</span></label>
+            <label>Max-power: <span> {{ connector.max_electric_power }}</span></label>
+            <label>Time to charge: <span> {{ connector.time }}</span></label>
+            <label>Speed to charge: <span> {{ connector.speed }}</span></label>
+        </div>
+    </div>
+</div>

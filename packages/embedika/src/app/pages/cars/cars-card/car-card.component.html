@@ -1,0 +1,21 @@
+<div class="card" *ngIf="car?.naming as naming">
+    <div class="card__make">
+        <h3>{{ naming.make }}</h3>
+        <button mat-icon-button color="primary" (click)="goToCar()">
+            <mat-icon>arrow_forward</mat-icon>
+        </button>
+    </div>
+
+    <div class="card__info">
+        <div class="card__info-model">
+            <label>Model</label>
+            <div><span>{{ naming.model }}</span></div>
+        </div>
+
+        <div class="card__info-charge">
+            <label>Charge version</label>
+            <div><span>{{ naming.version }}</span></div>
+        </div>
+    </div>
+</div>
+<mat-divider></mat-divider>

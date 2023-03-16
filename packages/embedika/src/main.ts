@@ -13,6 +13,5 @@ bootstrapApplication(AppComponent, {
     provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),
     provideAnimations(),
     provideHttpClient(),
-    // importProvidersFrom(ApiService),
   ],
 }).catch((err) => console.error(err));
