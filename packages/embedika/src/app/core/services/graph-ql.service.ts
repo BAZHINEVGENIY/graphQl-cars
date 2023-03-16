@@ -21,8 +21,8 @@ export function createApollo(httpLink: HttpLink) {
   const headersMiddleware = new ApolloLink((operation, forward) => {
     operation.setContext({
       headers: {
-        'x-client-id': '5ed1175bad06853b3aa1e492',
-        'x-app-id': '623996f3c35130073829b252',
+        'x-client-id': '6412ccd87777bc4ea27d01cb',
+        'x-app-id': '6412ccd87777bc4ea27d01cd',
       },
     });
     return forward(operation);
@@ -43,14 +43,14 @@ export class GraphQlService<T> {
   private _request?: MyRequest<T>;
 
   request<T>(req: gqlRequest<T>, args: MyVariables): Observable<MyAnswer<T>> {
-    // @ts-ignore // todo
+    // @ts-ignore // todo fix after
     this._request = this.getGraphQlQuery<T>(req, args);
     // @ts-ignore //
     return this._request.valueChanges;
   }
 
   //меняем Variables откуда угодно и получаем другие данные из ТЕКУЩЕГО запроса^
-  //поэтому решил использовать шарить запрос на всё приложение
+  //поэтому решил шарить запрос на всё приложение
   changeVariables(args: MyVariables) {
     this._request?.setVariables(args);
   }

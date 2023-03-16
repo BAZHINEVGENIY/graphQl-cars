@@ -5,6 +5,7 @@
     "defaultBase": "master"
   },
   "defaultBase": "master",
+  "defaultProject": "embedika",
   "generators": {
     "@nrwl/angular:application": {
       "style": "scss",

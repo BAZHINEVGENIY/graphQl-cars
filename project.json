@@ -7,19 +7,25 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/packages/embedika",
         "index": "packages/embedika/src/index.html",
         "main": "packages/embedika/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "packages/embedika/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           "packages/embedika/src/favicon.ico",
           "packages/embedika/src/assets"
         ],
-        "styles": ["packages/embedika/src/styles.scss"],
+        "styles": [
+          "packages/embedika/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -36,7 +42,13 @@
               "maximumError": "4kb"
             }
           ],
-          "outputHashing": "all"
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true
         },
         "development": {
           "buildOptimizer": false,
@@ -69,7 +81,9 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
         "lintFilePatterns": [
           "packages/embedika/**/*.ts",
