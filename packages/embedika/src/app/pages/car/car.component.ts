@@ -61,7 +61,7 @@ const car: gqlRequest<CarListInterface> = gql`
 export class CarComponent implements OnInit {
   private readonly activatedRouter = inject(ActivatedRoute);
   private readonly api = inject(ApiService);
-  data$?: Observable<MyAnswer<CarListInterface>>;
+  data$!: Observable<MyAnswer<CarListInterface>>;
 
   ngOnInit() {
     const id = this.activatedRouter.snapshot.paramMap.get('id') ?? '';

@@ -2,28 +2,29 @@
 
 .card {
   padding: 10px 20px 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
 
   &__make {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
   }
 
   &__info {
     display: flex;
     flex-wrap: wrap;
+    flex: 1;
+    justify-content: flex-end;
 
     span {
       @include span
-    }
-
-    &-model, &-charge {
-      display: inline-flex;
-      flex-wrap: wrap;
-      flex-basis: 50%;
     }
   }
 }
 
 label {
-  margin-right: 30%;
+  margin-right: 20%;
 }

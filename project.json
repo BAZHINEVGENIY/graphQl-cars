@@ -1,6 +1,6 @@
 {
   "name": "embedika",
-  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "packages/embedika/src",
   "prefix": "app",
@@ -24,7 +24,8 @@
           "packages/embedika/src/assets"
         ],
         "styles": [
-          "packages/embedika/src/styles.scss"
+          "packages/embedika/src/styles.scss",
+          "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
         ],
         "scripts": []
       },
@@ -56,7 +57,13 @@
           "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
-          "namedChunks": true
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "packages/embedika/src/environments/environment.ts",
+              "with": "packages/embedika/src/environments/environment.prod.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"

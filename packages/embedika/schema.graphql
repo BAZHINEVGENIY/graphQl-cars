@@ -38,6 +38,7 @@ type CarList {
     availability: CarListAvailability
     range: CarListRange
     connect: Connect
+    media: CarListMedia
 }
 
 type CarListAvailability {
@@ -60,6 +61,39 @@ type CarListNaming {
     edition: String
     chargetrip_version: String
 }
+
+type CarListMedia {
+    image: CarImage
+    brand: CarImage
+    video: CarVideo
+}
+
+type CarVideo {
+    id: ID
+    url: String
+}
+
+type CarImage {
+    id: ID
+    type: CarImageType
+    url: String
+    height: Int
+    width: Int
+    thumbnail_url: String
+    thumbnail_height: Int
+    thumbnail_width: Int
+}
+
+enum CarImageType {
+    provider
+    image
+    image_thumbnail
+    brand
+    brand_thumbnail
+    placeholder
+}
+
+
 
 input CarListQuery {
     make: String

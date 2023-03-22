@@ -11,6 +11,11 @@ export interface CarInterface {
     model: string;
     version: string;
   };
+  media: {
+    image: {
+      thumbnail_url: string;
+    };
+  };
 }
 
 export interface ExtendedCarInterface {

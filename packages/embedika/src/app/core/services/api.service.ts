@@ -3,10 +3,8 @@ import { GraphQlService } from './graph-ql.service';
 import { Observable, share } from 'rxjs';
 import { gqlRequest, MyAnswer } from '../../pages/types/api.interface';
 
-//этот сервис как прослойка над реальной реализацией API,
-//здесь можно поредачить данные и задать дефолтные значения
 @Injectable()
-export class ApiService {
+export class ApiService<T> {
   private readonly currentApi = inject(GraphQlService);
 
   request<T>(
@@ -22,12 +20,7 @@ export class ApiService {
     this.currentApi.changeVariables({ id, query, page, size, search });
   }
 
-  // private replaceNullChargeVersion(answer: MyAnswer) {
-  //   const newAnswer = structuredClone(answer);
-  //   // newAnswer.data?.carList?.map((car: CarInterface) => {
-  //   //   if (!car.naming.version) return (car.naming.version = 'no information');
-  //   //   return car;
-  //   // });
-  //   return newAnswer;
-  // }
+  get currentRequest$(): Observable<MyAnswer<T>> {
+    return this.currentApi.currentRequest$;
+  }
 }

@@ -3,7 +3,7 @@
     <mat-form-field>
         <mat-label>Search manufacturer</mat-label>
         <input
-                [(ngModel)]="searchCarByManufacturer"
+                [(ngModel)]="searchInputByManufacturer"
                 matInput
                 type="text"
                 #input>
@@ -13,8 +13,8 @@
         <mat-label>Charge version</mat-label>
         <mat-select
                 multiple
-                (selectionChange)="filtering(); isUniqValue()"
-                [(value)]="searchSelectCharge"
+                (selectionChange)="filtering()"
+                [(value)]="searchByCharge"
         >
             <mat-option
                     *ngFor="let charge of uniqCharge"
@@ -24,11 +24,11 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <h5>Type</h5>
+    <h5>Model</h5>
     <mat-radio-group class="filter__option"
                      color="primary"
-                     (change)="filtering(); isUniqValue()"
-                     [(ngModel)]="searchRadioValue"
+                     (change)="filtering()"
+                     [(ngModel)]="searchByModel"
     >
         <mat-radio-button
                 *ngFor="let model of uniqModel"

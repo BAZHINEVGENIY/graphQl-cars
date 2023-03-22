@@ -12,14 +12,10 @@
         </ng-container>
 
         <div class="container__main-paginator">
-            <ng-container
-                    *ngIf="!filterComponent.searchSelectCharge?.length &&
-                            !filterComponent.searchRadioValue &&
-                            !filterComponent.searchCarByManufacturer"
-            >
+            <ng-container *ngIf="filterComponent.isSearch">
                 <button
                         mat-icon-button
-                        (click)="decrementPage()"
+                        (click)="changePage(numPage - 1 )"
                         [disabled]="!numPage || data.loading"
                 >
                     <mat-icon>keyboard_arrow_left</mat-icon>
@@ -27,7 +23,7 @@
                 <span>{{numPage + 1}}</span>
                 <button
                         mat-icon-button
-                        (click)="incrementPage()"
+                        (click)="changePage(numPage + 1 )"
                         [disabled]="data.loading"
                 >
                     <mat-icon>keyboard_arrow_right</mat-icon>
@@ -36,6 +32,6 @@
         </div>
     </div>
     <div class="container__filter">
-        <app-filter [data$]="data$" [numPage]="numPage"></app-filter>
+        <app-filter [numPage]="numPage"></app-filter>
     </div>
 </div>

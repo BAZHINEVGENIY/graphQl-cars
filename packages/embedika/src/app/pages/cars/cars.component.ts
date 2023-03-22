@@ -23,6 +23,11 @@ const cars: gqlRequest<CarsListInterface> = gql`
         model
         version
       }
+      media {
+        image {
+          thumbnail_url
+        }
+      }
     }
   }
 `;
@@ -48,31 +53,43 @@ export class CarsComponent implements OnInit {
   private readonly api = inject(ApiService);
   private readonly storage = inject(StorageService);
 
-  // не самая лучшая практика (шарить observ), в данном случае допустимо
   public data$!: Observable<MyAnswer<CarsListInterface>>;
   public numPage = 0;
 
   @ViewChild(FilterComponent, { static: true })
-  filterComponent!: FilterComponent; // не самая лучшая практика, в данном случае упрощено
+  filterComponent!: FilterComponent;
 
   ngOnInit() {
-    this.data$ = this.api.request<CarsListInterface>(cars);
     this.numPage = +this.storage.get('numPage');
+    this.data$ = this.api.request<CarsListInterface>(cars);
   }
 
-  incrementPage() {
-    this.api.changeVariables({ page: ++this.numPage });
-    this.startChooseUniqValue();
+  changePage(page: number) {
+    this.storage.set('numPage', (this.numPage = page));
+    this.api.changeVariables({ page });
+
+    this.filterComponent.isUniqValue();
   }
 
-  decrementPage() {
-    this.api.changeVariables({ page: --this.numPage });
-    this.startChooseUniqValue();
-  }
-
-  private startChooseUniqValue() {
-    this.storage.set('numPage', this.numPage);
-    this.filterComponent.isUniqModel = true;
-    this.filterComponent.isUniqCharge = true;
-  }
+  // generate() {
+  //   let str = 'query GetCars{';
+  //   const arr = ['bmw', 'audi'];
+  //   arr.forEach((item, i) => {
+  //     str += `make${i}: carList(query: {make: "${item}"}) {
+  //     id
+  //     naming {
+  //       make
+  //       model
+  //       version
+  //     }
+  //     media {
+  //       image {
+  //         thumbnail_url
+  //       }
+  //     }
+  //   }`;
+  //   });
+  //   str += '}';
+  //   return str;
+  // }
 }

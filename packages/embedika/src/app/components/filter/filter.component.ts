@@ -13,23 +13,24 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { UniqValueService } from '../../core/services/uniq-value.service';
 import { ApiService } from '../../core/services/api.service';
 import { DestroyService } from '../../core/services/destroy.service';
 import {
   debounceTime,
   distinctUntilChanged,
+  filter,
   fromEvent,
   map,
-  Observable,
   takeUntil,
   tap,
 } from 'rxjs';
-import { MyAnswer } from '../../pages/types/api.interface';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { StorageService } from '../../core/services/storage.service';
 import { CarsListInterface } from '../../pages/types/cars.interface';
+import { MyAnswer } from '../../pages/types/api.interface';
+import { uniqValues } from '../../core/utils/uniq-values';
+import { dataToString } from '../../core/utils/concat';
 
 @Component({
   selector: 'app-filter',
@@ -46,90 +47,98 @@ import { CarsListInterface } from '../../pages/types/cars.interface';
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [DestroyService],
 })
 export class FilterComponent implements OnInit {
   private readonly changeRef = inject(ChangeDetectorRef);
   private readonly destroy$ = inject(DestroyService);
-  private readonly api = inject(ApiService);
   private readonly storage = inject(StorageService);
-  private readonly uniqValueService = inject(UniqValueService);
+  private readonly api = inject(ApiService<CarsListInterface>);
 
   public uniqCharge?: Set<string>;
   public uniqModel?: Set<string>;
   public isUniqCharge = true;
   public isUniqModel = true;
 
-  public searchCarByManufacturer = '';
-  public searchSelectCharge = [''];
-  public searchRadioValue = '';
+  public isSearch = false;
+  public searchInputByManufacturer = '';
+  public searchByCharge = [''];
+  public searchByModel = '';
 
-  // @ViewChildren('input, select')
-  // elements!: QueryList<ElementRef<HTMLInputElement | MatSelect>>;
-  // this.elements.get(0)?.nativeElement as HTMLInputElement
-  @Input() data$!: Observable<MyAnswer<CarsListInterface>>;
-  @Input() numPage!: number;
+  @Input() numPage = 0;
   @ViewChild('input', { static: true })
   input!: ElementRef<HTMLInputElement>;
 
   ngOnInit() {
+    this.searchInputByManufacturer = this.storage.get('searchByManufacturer');
+    this.searchByCharge = this.storage.get('searchByCharge');
+
     this.initializeUniqValue();
-    this.initializeFilter();
-    this.searchCarByManufacturer = this.storage.get('searchCarByManufacturer');
-    this.searchSelectCharge = this.storage.get('searchSelectCharge');
+    this.initializeInputByManufacturer();
     this.filtering();
   }
 
   filtering() {
-    this.storage.set('searchSelectCharge', this.searchSelectCharge);
+    // if (this.searchSelectCharge.length)
+    this.storage.set('searchByCharge', this.searchByCharge);
 
-    const isSearch =
-      !this.searchSelectCharge.length &&
-      !this.searchRadioValue &&
-      !this.searchCarByManufacturer;
-    if (isSearch) return this.api.changeVariables({ page: this.numPage });
+    this.isSearch =
+      !this.searchByCharge.length &&
+      !this.searchByModel &&
+      !this.searchInputByManufacturer;
 
-    const model = this.searchRadioValue;
-    const make = this.searchCarByManufacturer;
-    const charge = Array.isArray(this.searchSelectCharge)
-      ? this.searchSelectCharge.join(' ')
-      : '';
+    if (this.isSearch) return this.api.changeVariables({ page: this.numPage });
 
     this.api.changeVariables({
-      query: { model, make },
-      search: charge,
+      query: {
+        model: this.searchByModel,
+        make: this.searchInputByManufacturer,
+      },
+      search: dataToString(this.searchByCharge),
       size: 100,
     });
+    this.isUniqValue();
   }
 
   isUniqValue() {
-    this.isUniqModel = !this.searchRadioValue;
-    this.isUniqCharge = !this.searchSelectCharge.length;
+    this.isUniqModel = !this.searchByModel;
+    this.isUniqCharge = !this.searchByCharge.length;
   }
 
   private initializeUniqValue() {
-    this.uniqValueService
-      .uniqValue(this.data$)
+    this.api.currentRequest$
       .pipe(
-        tap(([model, charge]) => {
-          if (this.isUniqModel) this.uniqModel = model;
-          if (this.isUniqCharge) this.uniqCharge = charge;
+        map((cars: MyAnswer<CarsListInterface>) => cars.data?.carList),
+        filter((value) => Boolean(value)),
+        tap((carList) => {
+          // if (!this.isUniqCharge && !this.isUniqModel) return;
+          console.log(this.isUniqModel, this.isUniqCharge);
+          //todo
+          // избавиться от uniqValue (можно просто search...?)
+          // if (this.isUniqCharge)
+          this.uniqCharge = uniqValues<string>(
+            carList.map((car) => car.naming?.version)
+          );
+          // if (this.isUniqModel)
+          this.uniqModel = uniqValues<string>(
+            carList.map((car) => car.naming?.model)
+          );
 
-          if (this.isUniqCharge || this.isUniqModel)
-            this.changeRef.detectChanges();
+          this.changeRef.detectChanges();
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
   }
 
-  private initializeFilter() {
+  private initializeInputByManufacturer() {
     fromEvent(this.input.nativeElement, 'input')
       .pipe(
-        map(() => this.searchCarByManufacturer),
+        map(() => this.searchInputByManufacturer),
         debounceTime(200),
         distinctUntilChanged(),
         tap((make) => {
-          this.storage.set('searchCarByManufacturer', make);
+          this.storage.set('searchByManufacturer', make);
           const size = !make ? 5 : 100;
           this.api.changeVariables({
             query: { make },
